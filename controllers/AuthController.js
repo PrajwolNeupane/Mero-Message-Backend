@@ -1,6 +1,7 @@
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import 'dotenv/config';
 
 // Register new user
 export const registerUser = async (req, res) => {
@@ -21,7 +22,7 @@ export const registerUser = async (req, res) => {
     const user = await newUser.save();
     const token = jwt.sign(
       { id: user._id },
-      "1234567890",
+      process.env.JWTKEY ,
     );
     res.status(200).json({ token });
   } catch (error) {
@@ -46,7 +47,7 @@ export const loginUser = async (req, res) => {
       } else {
         const token = jwt.sign(
           { id: user._id },
-          "1234567890"
+          process.env.JWTKEY 
         );
         res.status(200).json({ token });
       }
