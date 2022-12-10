@@ -1,5 +1,5 @@
 import UserModel from "../models/userModel.js";
-
+import 'dotenv/config';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
 // Get a User
@@ -7,7 +7,7 @@ export const getUser = async (req, res) => {
   try {
     const token = req.body.token;
     if (!token) return res.status(401).send('Acess denied. No token provided.');
-    const decode = jwt.verify(token, "1234567890");
+    const decode = jwt.verify(token, process.env.JWTKEY);
 
     if (!decode) return res.status(401).send('Acess denied. No token provided.');
     const user = await UserModel.findById(decode.id).select('-password');
